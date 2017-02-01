@@ -1,2 +1,0 @@
-# Prayas
-The Neighbourhood Project
