@@ -1,0 +1,12 @@
+<html>
+<head>
+<title> Student </title>
+</head>
+	<body>
+	<form method="post" action="{% url 'edit-student'  rollNo %} " enctype="multipart/form-data">
+		{% csrf_token %}
+		{{ editstudentform.as_p }}
+		<button type="submit">Submit Details</button>
+	</form>
+	</body>
+</html>

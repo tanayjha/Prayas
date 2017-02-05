@@ -82,3 +82,42 @@ def studentProfile(request, student_rollNo):
 		data['student'] = stu
 		return render(request, 'students/studentProfile.html', data)
 
+
+@require_http_methods(['GET', 'POST'])
+def editStudent(request, student_rollNo):
+	u = students.objects.get(rollNo=student_rollNo)
+	if request.method == 'POST':
+		data = {}
+		data['rollNo'] = student_rollNo
+		f = EditStudentForm(request.POST)
+		if f.is_valid():
+			u.delete()
+			# print ("HERE")
+			name = f.cleaned_data.get('name')
+			rollNo = f.cleaned_data.get('rollNo')
+			address = f.cleaned_data.get('address')
+			isActive = f.cleaned_data.get('isActive')
+			guardianName = f.cleaned_data.get('guardianName')
+			guardianPhone = f.cleaned_data.get('guardianPhone')
+			guardiansRelationWithChild = f.cleaned_data.get('guardiansRelationWithChild')
+			referenceName = f.cleaned_data.get('referenceName')
+			referencePhone = f.cleaned_data.get('referencePhone')
+			referenceAddress = f.cleaned_data.get('referenceAddress')
+			joiningDate = f.cleaned_data.get('joiningDate')
+
+
+			s = students(name=name, rollNo=rollNo, address=address,
+						 isActive=isActive, guardianName=guardianName, guardianPhone=guardianPhone,
+						 guardiansRelationWithChild=guardiansRelationWithChild, referenceName=referenceName,
+						 referencePhone=referencePhone, referenceAddress=referenceAddress, joiningDate=joiningDate)
+			# user = MyUser.objects.create_user(f.cleaned_data.get(
+			# 	'username'), datetime.now(), pas)
+			s.save()
+		return render(request, 'students/editStudent.html', data)
+	else:
+		data = {}
+		f = EditStudentForm(user=request.user, rollNo=student_rollNo, instance=u)
+		data['editstudentform'] = f
+		data['rollNo'] = student_rollNo
+		return render(request, 'students/editStudent.html', data)
+
