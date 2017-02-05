@@ -73,4 +73,12 @@ def searchstudent(request):
 		data = {'searchstudentform' : f}
 		return render(request, 'students/searchstudent.html', data)
 
-	
+
+@require_http_methods(['GET', 'POST'])
+def studentProfile(request, student_rollNo):
+	if request.method == 'GET':
+		data = {}
+		stu = students.objects.get(rollNo = student_rollNo)
+		data['student'] = stu
+		return render(request, 'students/studentProfile.html', data)
+
