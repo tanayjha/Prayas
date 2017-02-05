@@ -43,3 +43,18 @@ class CreateStudentForm(forms.ModelForm):
     def get_user(self):
         return self.user_cache
     
+
+class SearchStudentForm(forms.Form):
+    # class Meta:
+    #     model = students
+    #     exclude = ['rollNo', 'address', 'isActive', 'guardianName', 'guardianPhone', ]
+    name = forms.CharField(help_text='Search Student by Name')
+
+    def __init__(self, *args, **kwargs):
+                    self.user_cache = None
+                    super(SearchStudentForm, self).__init__(*args, **kwargs)
+
+    def clean(self):
+        name = self.cleaned_data.get('name')
+
+        return self.cleaned_data

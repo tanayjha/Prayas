@@ -2,13 +2,14 @@ from django.shortcuts import render
 from .forms import * 
 from django.views.decorators.http import require_http_methods, require_GET, require_POST
 from main.models import *
+from django.core.exceptions import ObjectDoesNotExist
 
 @require_http_methods(['GET', 'POST'])
 def addstudent(request):
 	if request.method == 'POST':
 		f = CreateStudentForm(request.POST)
 		if f.is_valid():
-			print ("HERE")
+			# print ("HERE")
 			name = f.cleaned_data.get('name')
 			rollNo = f.cleaned_data.get('rollNo')
 			address = f.cleaned_data.get('address')
@@ -33,13 +34,43 @@ def addstudent(request):
 			# user.save()
 			return render(request, 'students/student.html', data)
 		else:
-			print ("ELSE")
+			# print ("ELSE")
 			data = {'addstudentform' : f}
 			#return redirect('127.0.0.1:8000/warden/student#add')
 			return render(request, 'students/student.html', data)
 	else:
-		print ("NOW")
+		# print ("NOW")
 		f = CreateStudentForm()
 		data = {'addstudentform' : f}
 		return render(request, 'students/student.html', data)
+
+
+@require_http_methods(['GET', 'POST'])
+def searchstudent(request):
+	if request.method == 'POST':
+		searchedstudent = []
+		data = {}
+		f = SearchStudentForm(request.POST)
+		if f.is_valid():
+			name = f.cleaned_data.get('name')
+			try:
+				stu = students.objects.filter(name=name)
+				data['searchedstudentnotfound'] = 'no'
+			except ObjectDoesNotExist:
+				data['searchedstudentnotfound'] = 'yes'
+			if data['searchedstudentnotfound'] == 'no':
+				for student in stu:
+					searchedstudent.append(student)
+			data['searchedstudent'] = searchedstudent
+			data['searchstudentform'] = f
+			return render(request, 'students/searchstudent.html', data)
+		else:
+			f = SearchStudentForm()
+			data = {'searchstudentform' : f}
+			return render(request, 'students/searchstudent.html', data)
+	else:
+		f = SearchStudentForm()
+		data = {'searchstudentform' : f}
+		return render(request, 'students/searchstudent.html', data)
+
 	
