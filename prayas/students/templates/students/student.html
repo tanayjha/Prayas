@@ -3,6 +3,10 @@
 <title> Student </title>
 </head>
 	<body>
-	{{addstudentform}}
+	<form method="post" action="{% url 'add-student'  %} " enctype="multipart/form-data">
+		{% csrf_token %}
+		{{ addstudentform.as_p }}
+		<button type="submit">Submit Details</button>
+	</form>
 	</body>
 </html>
