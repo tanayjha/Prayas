@@ -1,0 +1,12 @@
+<html>
+<head>
+<title> Volunteer </title>
+</head>
+	<body>
+	<form method="post" action="{% url 'add-volunteer'  %} " enctype="multipart/form-data">
+		{% csrf_token %}
+		{{ addvolunteerform.as_p }}
+		<button type="submit">Submit Details</button>
+	</form>
+	</body>
+</html>
