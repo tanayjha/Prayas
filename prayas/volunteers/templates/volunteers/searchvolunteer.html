@@ -1,0 +1,22 @@
+<html>
+<head>
+<title> Volunteer </title>
+</head>
+	<body>
+	<form method="post" action="{% url 'search-volunteer'  %} " enctype="multipart/form-data">
+		{% csrf_token %}
+		{{ searchvolunteerform.as_p }}
+		<button type="submit">Submit Details</button>
+	</form>
+	{% if searchedvolunteernotfound == 'yes' %}
+		<p>Volunteer Not Found.</p>
+	{% endif %}
+	{% if searchedvolunteer %}
+		{% for v in searchedvolunteer %}
+			<a href="{% url 'volunteerprofile' v.collegeRollNo %}"> {{ v.name }}</a>
+			{{v.collegeRollNo}}
+			<br>
+		{% endfor %}
+	{% endif %}
+	</body>
+</html>

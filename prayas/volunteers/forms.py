@@ -1,5 +1,6 @@
 from django import forms
 from main.models import *
+import re
 
 class CreateVolunteerForm(forms.ModelForm):
     class Meta:
@@ -11,7 +12,11 @@ class CreateVolunteerForm(forms.ModelForm):
                     super(CreateVolunteerForm, self).__init__(*args, **kwargs)
     def clean(self):
         name = self.cleaned_data.get('name')
+
+        if re.match("[0-9]*-[A-Z]*-[0-9]*",str(name)) == None:
+            raise forms.ValidationError('Incorrect format of roll no.(Correct format: 111-CO-15)')
         collegeRollNo = self.cleaned_data.get('collegeRollNo')
+
         joiningDate = self.cleaned_data.get('joiningDate')
         email = self.cleaned_data.get('email')
         contactNo = self.cleaned_data.get('contactNo')
@@ -24,3 +29,16 @@ class CreateVolunteerForm(forms.ModelForm):
         return self.cleaned_data
     def get_user(self):
         return self.user_cache
+
+
+class SearchVolunteerForm(forms.Form):
+    name = forms.CharField(help_text='Search Volunteer by Name')
+
+    def __init__(self, *args, **kwargs):
+                    self.user_cache = None
+                    super(SearchVolunteerForm, self).__init__(*args, **kwargs)
+
+    def clean(self):
+        name = self.cleaned_data.get('name')
+
+        return self.cleaned_data

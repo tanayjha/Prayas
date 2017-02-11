@@ -34,3 +34,41 @@ def addvolunteer(request):
 		f = CreateVolunteerForm()
 		data = {'addvolunteerform' : f}
 		return render(request, 'volunteers/volunteer.html', data)
+
+
+@require_http_methods(['GET', 'POST'])
+def searchvolunteer(request):
+	if request.method == 'POST':
+		searchedvolunteer = []
+		data = {}
+		f = SearchVolunteerForm(request.POST)
+		if f.is_valid():
+			name = f.cleaned_data.get('name')
+			try:
+				volu = volunteers.objects.filter(name=name)
+				data['searchedvolunteernotfound'] = 'no'
+			except ObjectDoesNotExist:
+				data['searchedvolunteernotfound'] = 'yes'
+			if data['searchedvolunteernotfound'] == 'no':
+				for volunteer in volu:
+					searchedvolunteer.append(volunteer)
+			data['searchedvolunteer'] = searchedvolunteer
+			data['searchvolunteerform'] = f
+			return render(request, 'volunteers/searchvolunteer.html', data)
+		else:
+			f = SearchVolunteerForm()
+			data = {'searchvolunteerform' : f}
+			return render(request, 'volunteers/searchvolunteer.html', data)
+	else:
+		f = SearchVolunteerForm()
+		data = {'searchvolunteerform' : f}
+		return render(request, 'volunteers/searchvolunteer.html', data)
+
+
+@require_http_methods(['GET', 'POST'])
+def volunteerProfile(request, volunteer_roll_no):
+	if request.method == 'GET':
+		data = {}
+		volu = volunteers.objects.get(collegeRollNo = volunteer_roll_no)
+		data['volunteer'] = volu
+		return render(request, 'volunteers/volunteerProfile.html', data)
