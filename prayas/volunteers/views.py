@@ -72,3 +72,32 @@ def volunteerProfile(request, volunteer_roll_no):
 		volu = volunteers.objects.get(collegeRollNo = volunteer_roll_no)
 		data['volunteer'] = volu
 		return render(request, 'volunteers/volunteerProfile.html', data)
+
+
+@require_http_methods(['GET', 'POST'])
+def editVolunteer(request, volunteer_roll_no):
+	u = volunteers.objects.get(collegeRollNo=volunteer_roll_no)
+	if request.method == 'POST':	
+		data = {}
+		data['rollNo'] = volunteer_roll_no
+		f = EditVolunteerForm(request.POST)
+		if f.is_valid():
+			u.delete()
+			name = f.cleaned_data.get('name')
+			collegeRollNo = f.cleaned_data.get('collegeRollNo')
+			joiningDate = f.cleaned_data.get('joiningDate')
+			email = f.cleaned_data.get('email')
+			contactNo = f.cleaned_data.get('contactNo')
+			
+			v = volunteers(name=name, collegeRollNo=collegeRollNo, joiningDate=joiningDate, email=email,
+							contactNo=contactNo)
+			# user = MyUser.objects.create_user(f.cleaned_data.get(
+			# 	'username'), datetime.now(), pas)
+			v.save()
+		return render(request, 'volunteers/editVolunteer.html', data)
+	else:
+		data = {}
+		f = EditVolunteerForm(user=request.user, rollNo=volunteer_roll_no, instance=u)
+		data['editvolunteerform'] = f
+		data['rollNo'] = volunteer_roll_no
+		return render(request, 'volunteers/editVolunteer.html', data)

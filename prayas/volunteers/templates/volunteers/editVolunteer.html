@@ -1,0 +1,12 @@
+<html>
+<head>
+<title> Volunteer </title>
+</head>
+	<body>
+	<form method="post" action="{% url 'edit-volunteer'  rollNo %} " enctype="multipart/form-data">
+		{% csrf_token %}
+		{{ editvolunteerform.as_p }}
+		<button type="submit">Submit Details</button>
+	</form>
+	</body>
+</html>
