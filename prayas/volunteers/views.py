@@ -3,8 +3,10 @@ from .forms import *
 from django.views.decorators.http import require_http_methods, require_GET, require_POST
 from main.models import *
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.decorators import login_required
 
 @require_http_methods(['GET', 'POST'])
+@login_required
 def addvolunteer(request):
 	if request.method == 'POST':
 		f = CreateVolunteerForm(request.POST)
@@ -37,6 +39,7 @@ def addvolunteer(request):
 
 
 @require_http_methods(['GET', 'POST'])
+@login_required
 def searchvolunteer(request):
 	if request.method == 'POST':
 		searchedvolunteer = []
@@ -66,6 +69,7 @@ def searchvolunteer(request):
 
 
 @require_http_methods(['GET', 'POST'])
+@login_required
 def volunteerProfile(request, volunteer_roll_no):
 	if request.method == 'GET':
 		data = {}
@@ -75,6 +79,7 @@ def volunteerProfile(request, volunteer_roll_no):
 
 
 @require_http_methods(['GET', 'POST'])
+@login_required
 def editVolunteer(request, volunteer_roll_no):
 	u = volunteers.objects.get(collegeRollNo=volunteer_roll_no)
 	if request.method == 'POST':	

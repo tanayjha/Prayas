@@ -3,8 +3,10 @@ from .forms import *
 from django.views.decorators.http import require_http_methods, require_GET, require_POST
 from main.models import *
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.decorators import login_required
 
 @require_http_methods(['GET', 'POST'])
+@login_required
 def addstudent(request):
 	if request.method == 'POST':
 		f = CreateStudentForm(request.POST)
@@ -46,6 +48,7 @@ def addstudent(request):
 
 
 @require_http_methods(['GET', 'POST'])
+@login_required
 def searchstudent(request):
 	if request.method == 'POST':
 		searchedstudent = []
@@ -75,6 +78,7 @@ def searchstudent(request):
 
 
 @require_http_methods(['GET', 'POST'])
+@login_required
 def studentProfile(request, student_rollNo):
 	if request.method == 'GET':
 		data = {}
@@ -84,6 +88,7 @@ def studentProfile(request, student_rollNo):
 
 
 @require_http_methods(['GET', 'POST'])
+@login_required
 def editStudent(request, student_rollNo):
 	u = students.objects.get(rollNo=student_rollNo)
 	if request.method == 'POST':

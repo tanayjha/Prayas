@@ -1,0 +1,12 @@
+<html>
+<head>
+<title> Log In </title>
+</head>
+	<body>
+	<form method="post" action="{% url 'login'  %} " enctype="multipart/form-data">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<button type="submit">Submit</button>
+	</form>
+	</body>
+</html>
