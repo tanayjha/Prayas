@@ -1,0 +1,7 @@
+{% for event in events %}
+<p>
+	<a href="{% url 'main:mainGallery' event.pk %}">{{ event.name }}</a>
+		{{ event.videoLink }}
+		{{ event.image }}
+</p>
+{% endfor %}

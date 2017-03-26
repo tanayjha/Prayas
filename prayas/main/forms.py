@@ -32,3 +32,23 @@ class LoginForm(forms.Form):
     def get_user(self):
         return self.user_cache
     
+
+class editMainForm(forms.ModelForm):
+    class Meta:
+        model = mainPage
+        exclude = []
+
+class addNoticeForm(forms.ModelForm):
+    class Meta:
+        model = notices
+        exclude = ['uploadDate']
+
+class addEventForm(forms.ModelForm):
+    class Meta:
+        model = events
+        exclude = []
+
+class addGalleryForm(forms.ModelForm):
+    class Meta:
+        model = photoGallery
+        exclude = ['event']

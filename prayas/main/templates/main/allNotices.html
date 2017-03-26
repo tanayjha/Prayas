@@ -1,0 +1,20 @@
+{% for noti in notices %}
+<p>
+	{{ noti.description }}
+
+	{{ noti.uploadDate }}
+
+	{{ noti.pdf }}	
+</p>
+{% endfor %}
+
+
+<li>
+{% if pageNo > 1 %}
+	<a href="{% url 'main:allNotices' prev %}">Prev</a>
+{% endif %}
+{% if ifNext %}
+	<a href="{% url 'main:allNotices' next %}">Next</a>
+{% endif %}
+</li>
+

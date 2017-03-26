@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import *
 from django.utils import timezone
+from django.core.exceptions import ValidationError
 
 # Create your models here.
 
@@ -35,7 +36,7 @@ class volunteers(models.Model):
 	contactNo = models.CharField(max_length = 10,null = False)
 	# photo = models.ImageField(upload_to = volunteerPhotoName,null = False)
 
-class volunteerssAttendanceRecord(models.Model):
+class volunteersAttendanceRecord(models.Model):
 	date = models.DateField(null = False,default = date.today())
 	volunteer = models.ForeignKey(volunteers)
 	present = models.BooleanField(default = True)
@@ -45,30 +46,42 @@ class studentsAttendanceRecord(models.Model):
 	student = models.ForeignKey(students)
 	present = models.BooleanField(default = True)
 
-class volunteerAttendanceRecord(models.Model):
-	date = models.DateField(null = False,default = date.today())
-	volunteer = models.ForeignKey(volunteers)
+def eventImageName(instance, filename):
+	ext = filename.split('.')[-1]
+	name = instance.name.replace(' ','.')
+	return 'main/files/events/'+name+'.'+ext
 
 class events(models.Model):
 	name = models.CharField(max_length = 50,null = False)
 	description = models.CharField(max_length = 1000,null = False)
-	# image = models.ImageField(upload_to = eventImageName,null = False)
+	videoLink = models.CharField(max_length = 1000,blank = True)
+	image = models.ImageField(upload_to = eventImageName,null = False)
+
+def photoName(instance, filename):
+	return 'main/files/events/gallery/'+filename
 
 class photoGallery(models.Model):
-	year = models.IntegerField(null = False)
-	# image = models.ImageField(upload_to = photoName,null = False)
+	image = models.ImageField(upload_to = photoName,null = False)
 	event = models.ForeignKey(events)
 
-# def noticeName(instance, filename):
-# 	ext = filename.split('.')[-1]
-# 	desc = instance.description.replace(' ','')
-# 	da = str(instance.date_of_action).replace(' ','')
-# 	return 'newapp/files/notices/'+str(instance.student)+'/'+desc+da+'.'+ext
+def validate_file_extension(value):
+    if not value.name.endswith('.pdf'):
+        raise ValidationError(u'Only pdf file format is supported')
+
+def noticeName(instance, filename):
+	ext = filename.split('.')[-1]
+	desc = instance.description.replace(' ','')
+	da = str(instance.uploadDate).replace(' ','')
+	return 'main/files/notices/'+desc+da+'.'+ext
 
 class notices(models.Model):
 	uploadDate = models.DateField(default = date.today(),null = False)
 	description = models.CharField(max_length = 200,null = False)
-	# pdf = FileField(upload_to = noticeName,null = False)
+	pdf = models.FileField(upload_to = noticeName, validators = [validate_file_extension], null = False)
+
+def calenderName(instance,fileName):
+	ext = fileName.split('.')[-1]
+	return 'main/files/academic/Academic_Calender.'+ext
 
 class mainPage(models.Model):
 	ourMotto = models.CharField(max_length = 400,null = False)
@@ -83,4 +96,5 @@ class mainPage(models.Model):
 	student3 = models.CharField(max_length = 20)
 	student5 = models.CharField(max_length = 20)
 	student4 = models.CharField(max_length = 20)
+	academicCalender = models.FileField(upload_to = calenderName, validators=[validate_file_extension], null = False)
 	# Other things can be added
