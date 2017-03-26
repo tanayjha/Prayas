@@ -57,7 +57,7 @@ def searchstudent(request):
 		if f.is_valid():
 			name = f.cleaned_data.get('name')
 			try:
-				stu = students.objects.filter(name=name)
+				stu = students.objects.filter(name__contains=name)
 				data['searchedstudentnotfound'] = 'no'
 			except ObjectDoesNotExist:
 				data['searchedstudentnotfound'] = 'yes'

@@ -48,7 +48,7 @@ def searchvolunteer(request):
 		if f.is_valid():
 			name = f.cleaned_data.get('name')
 			try:
-				volu = volunteers.objects.filter(name=name)
+				volu = volunteers.objects.filter(name__contains=name)
 				data['searchedvolunteernotfound'] = 'no'
 			except ObjectDoesNotExist:
 				data['searchedvolunteernotfound'] = 'yes'
