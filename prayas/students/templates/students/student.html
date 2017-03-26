@@ -3,6 +3,21 @@
 <title> Student </title>
 </head>
 	<body>
+	<form method="post" action="{% url 'search-student'  %} " enctype="multipart/form-data">
+		{% csrf_token %}
+		{{ searchstudentform.as_p }}
+		<button type="submit">Submit Details</button>
+	</form>
+	{% if searchedstudentnotfound == 'yes' %}
+		<p>Student Not Found.</p>
+	{% endif %}
+	{% if searchedstudent %}
+		{% for s in searchedstudent %}
+			<a href="{% url 'studentprofile' s.rollNo %}"> {{ s.name }}</a>
+			{{s.rollNo}}
+			<br>
+		{% endfor %}
+	{% endif %}
 	<form method="post" action="{% url 'add-student'  %} " enctype="multipart/form-data">
 		{% csrf_token %}
 		{{ addstudentform.as_p }}

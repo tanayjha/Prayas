@@ -42,8 +42,9 @@ def addstudent(request):
 			return render(request, 'students/student.html', data)
 	else:
 		# print ("NOW")
-		f = CreateStudentForm()
-		data = {'addstudentform' : f}
+		f1 = CreateStudentForm()
+		f2 = SearchStudentForm()
+		data = {'addstudentform' : f1, 'searchstudentform' : f2}
 		return render(request, 'students/student.html', data)
 
 
@@ -66,15 +67,18 @@ def searchstudent(request):
 					searchedstudent.append(student)
 			data['searchedstudent'] = searchedstudent
 			data['searchstudentform'] = f
-			return render(request, 'students/searchstudent.html', data)
+			data['addstudentform'] = CreateStudentForm()
+			return render(request, 'students/student.html', data)
 		else:
-			f = SearchStudentForm()
-			data = {'searchstudentform' : f}
-			return render(request, 'students/searchstudent.html', data)
+			f1 = CreateStudentForm()
+			f2 = SearchStudentForm()
+			data = {'addstudentform' : f1, 'searchstudentform' : f2}
+			return render(request, 'students/student.html', data)
 	else:
-		f = SearchStudentForm()
-		data = {'searchstudentform' : f}
-		return render(request, 'students/searchstudent.html', data)
+		f1 = CreateStudentForm()
+		f2 = SearchStudentForm()
+		data = {'addstudentform' : f1, 'searchstudentform' : f2}
+		return render(request, 'students/student.html', data)
 
 
 @require_http_methods(['GET', 'POST'])

@@ -33,8 +33,9 @@ def addvolunteer(request):
 			return render(request, 'volunteers/volunteer.html', data)
 	else:
 		# print ("NOW")
-		f = CreateVolunteerForm()
-		data = {'addvolunteerform' : f}
+		f1 = CreateVolunteerForm()
+		f2 = SearchVolunteerForm()
+		data = {'addvolunteerform' : f1, 'searchvolunteerform' : f2}
 		return render(request, 'volunteers/volunteer.html', data)
 
 
@@ -57,15 +58,18 @@ def searchvolunteer(request):
 					searchedvolunteer.append(volunteer)
 			data['searchedvolunteer'] = searchedvolunteer
 			data['searchvolunteerform'] = f
-			return render(request, 'volunteers/searchvolunteer.html', data)
+			data['addvolunteerform'] = CreateVolunteerForm()
+			return render(request, 'volunteers/volunteer.html', data)
 		else:
-			f = SearchVolunteerForm()
-			data = {'searchvolunteerform' : f}
-			return render(request, 'volunteers/searchvolunteer.html', data)
+			f1 = CreateVolunteerForm()
+			f2 = SearchVolunteerForm()
+			data = {'addvolunteerform' : f1, 'searchvolunteerform' : f2}
+			return render(request, 'volunteers/volunteer.html', data)
 	else:
-		f = SearchVolunteerForm()
-		data = {'searchvolunteerform' : f}
-		return render(request, 'volunteers/searchvolunteer.html', data)
+		f1 = CreateVolunteerForm()
+		f2 = SearchVolunteerForm()
+		data = {'addvolunteerform' : f1, 'searchvolunteerform' : f2}
+		return render(request, 'volunteers/volunteer.html', data)
 
 
 @require_http_methods(['GET', 'POST'])
