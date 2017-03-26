@@ -1,0 +1,16 @@
+<li>{{ eventName }}</li>
+
+{% for photo in photos %}
+<p>
+	{{ photo.image }}
+	<a href="{% url 'main:removeGallery' photo.pk %}">Remove</a>
+</p>
+{% endfor %}
+
+<p>
+	<form method="POST" action="{% url 'main:addGallery' eventPk %}" enctype="multipart/form-data" >
+	{% csrf_token %}
+	{{ form.as_p }}
+	<button type="submit"class="btn waves-effect waves-light left">Add Gallery Photo</button>
+	</form>
+</p>

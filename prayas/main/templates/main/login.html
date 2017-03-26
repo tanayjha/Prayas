@@ -3,7 +3,7 @@
 <title> Log In </title>
 </head>
 	<body>
-	<form method="post" action="{% url 'login'  %} " enctype="multipart/form-data">
+	<form method="post" action="{% url 'main:login'  %} " enctype="multipart/form-data">
 		{% csrf_token %}
 		{{ form.as_p }}
 		<button type="submit">Submit</button>

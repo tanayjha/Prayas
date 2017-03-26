@@ -1,0 +1,19 @@
+{% for event in eventList %}
+	<p>
+		<a href="{% url 'main:addGallery' event.pk %}">{{ event.name }}</a>
+		{{ event.videoLink }}
+		{{ event.image }}
+	</p>
+	<li>
+		<a href="{% url 'main:removeEvent' event.pk %}">Remove</a>
+	</li>
+{% endfor %}
+
+
+<p>
+	<form method="POST" action={% url 'main:addEvent' %} enctype="multipart/form-data" >
+		{% csrf_token %}
+		{{ form.as_p }}
+		<button type="submit"class="btn waves-effect waves-light left">Add Event</button>
+	</form>
+</p>

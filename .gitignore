@@ -1,0 +1,28 @@
+*initial.py
+*_initial.py
+media
+*_auto_*.py
+__pycache__
+#
+##############
+*.pyc
+*.swo
+*.swp
+*.swn
+*_auto_*.py
+settings.py
+# Directories #
+###############
+logs/
+
+# Specific files #
+##################
+# testuser/testuser/settings.py
+
+# OS generated files #
+######################
+.DS_Store?
+ehthumbs.db
+Icon?
+Thumbs.db
+*~
